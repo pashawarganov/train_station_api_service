@@ -1,4 +1,3 @@
-from django.db.models import F
 from rest_framework import viewsets
 
 from station.models import (
@@ -20,7 +19,13 @@ from station.serializers import (
     JourneySerializer,
     OrderSerializer,
     TicketSerializer,
-    RouteListSerializer, TrainListSerializer, JourneyListSerializer, OrderListSerializer, TicketListSerializer,
+    RouteListSerializer,
+    TrainListSerializer,
+    JourneyListSerializer,
+    OrderListSerializer,
+    TicketListSerializer,
+    RouteDetailSerializer,
+    JourneyDetailSerializer,
 )
 
 
@@ -40,6 +45,8 @@ class RouteViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == "list":
             return RouteListSerializer
+        if self.action == "retrieve":
+            return RouteDetailSerializer
 
         return RouteSerializer
 
@@ -53,7 +60,7 @@ class TrainViewSet(viewsets.ModelViewSet):
     queryset = Train.objects.select_related("train_type")
 
     def get_serializer_class(self):
-        if self.action == "list":
+        if self.action in ("list", "retrieve"):
             return TrainListSerializer
 
         return TrainSerializer
@@ -68,6 +75,8 @@ class JourneyViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == "list":
             return JourneyListSerializer
+        if self.action == "retrieve":
+            return JourneyDetailSerializer
 
         return JourneySerializer
 
@@ -75,7 +84,7 @@ class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.select_related("user")
 
     def get_serializer_class(self):
-        if self.action == "list":
+        if self.action in ("list", "retrieve"):
             return OrderListSerializer
 
         return OrderSerializer

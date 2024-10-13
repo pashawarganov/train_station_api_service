@@ -1,3 +1,4 @@
+from django.db import transaction
 from rest_framework import serializers
 
 from station.models import (
@@ -37,6 +38,11 @@ class RouteListSerializer(RouteSerializer):
     class Meta:
         model = Route
         fields = ("id", "source_station", "destination_station", "distance")
+
+
+class RouteDetailSerializer(RouteSerializer):
+    source = StationSerializer(read_only=True)
+    destination = StationSerializer(read_only=True)
 
 
 class TrainTypeSerializer(serializers.ModelSerializer):
@@ -79,23 +85,44 @@ class JourneyListSerializer(JourneySerializer):
         return f"{obj.route.source.name} - {obj.route.destination.name}"
 
 
-class OrderSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Order
-        fields = ("id", "created_at", "user")
-
-
-class OrderListSerializer(OrderSerializer):
-    user = serializers.CharField(source="user.username", read_only=True)
+class JourneyDetailSerializer(JourneySerializer):
+    route = RouteListSerializer(read_only=True)
+    train = TrainListSerializer(read_only=True)
+    crew = serializers.SlugRelatedField(
+        many=True, read_only=True, slug_field="full_name"
+    )
 
 
 class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
-        fields = ("id", "cargo", "seat", "journey", "order")
+        fields = ("id", "cargo", "seat", "journey")
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    tickets = TicketSerializer(many=True, read_only=False, allow_empty=False)
+
+    class Meta:
+        model = Order
+        fields = ("id", "created_at", "user", "tickets")
+
+    def create(self, validated_data):
+        with transaction.atomic():
+            tickets_data = validated_data.pop("tickets")
+            order = Order.objects.create(**validated_data)
+            for ticket_data in tickets_data:
+                Ticket.objects.create(order=order, **ticket_data)
+            return order
 
 
 class TicketListSerializer(TicketSerializer):
     journey = serializers.CharField(source="journey.route", read_only=True)
-    order = OrderListSerializer(read_only=True)
 
+    class Meta:
+        model = Ticket
+        fields = ("id", "cargo", "seat", "journey")
+
+
+class OrderListSerializer(OrderSerializer):
+    user = serializers.CharField(source="user.username", read_only=True)
+    tickets = TicketListSerializer(many=True, read_only=False)
