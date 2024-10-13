@@ -6,8 +6,12 @@ class Crew(models.Model):
     first_name = models.CharField(max_length=63)
     last_name = models.CharField(max_length=63)
 
-    def __str__(self):
+    @property
+    def full_name(self) -> str:
         return f"{self.first_name} {self.last_name}"
+
+    def __str__(self):
+        return self.full_name
 
 
 class Station(models.Model):
@@ -40,6 +44,10 @@ class Train(models.Model):
     cargo_num = models.IntegerField()
     places_in_cargo = models.IntegerField()
     train_type = models.ForeignKey(TrainType, on_delete=models.CASCADE, related_name="trains")
+
+    @property
+    def capacity(self) -> int:
+        return self.cargo_num * self.places_in_cargo
 
     def __str__(self):
         return f"{self.name}({self.train_type.name})"
