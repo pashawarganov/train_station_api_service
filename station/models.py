@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models
 
@@ -17,7 +17,7 @@ class Crew(models.Model):
 
 class Station(models.Model):
     name = models.CharField(max_length=63)
-    latitude = models.FloatField()
+    latitude = models.FloatField()      # Use Decimal ???
     longitude = models.FloatField()
 
     def __str__(self):
@@ -67,10 +67,10 @@ class Journey(models.Model):
 
 class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="orders")
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="orders")
 
     def __str__(self):
-        return f"{self.user.username}({str(self.created_at)})"
+        return f"{self.user}({str(self.created_at)})"
 
 
 class Ticket(models.Model):
