@@ -1,5 +1,6 @@
 from django.db import transaction
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
 from station.models import (
     Crew,
@@ -94,9 +95,29 @@ class JourneyDetailSerializer(JourneySerializer):
 
 
 class TicketSerializer(serializers.ModelSerializer):
+    def validate(self, attrs):
+        data = super(TicketSerializer, self).validate(attrs=attrs)
+        Ticket.validate_ticket(
+            attrs["row"],
+            attrs["seat"],
+            attrs["journey"].train,
+            ValidationError
+        )
+        return data
+
     class Meta:
         model = Ticket
         fields = ("id", "cargo", "seat", "journey")
+
+
+class TicketListSerializer(TicketSerializer):
+    journey = JourneyListSerializer(read_only=True)
+
+
+class TicketSeatsSerializer(TicketSerializer):
+    class Meta:
+        model = Ticket
+        fields = ("cargo", "seat")
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -115,14 +136,6 @@ class OrderSerializer(serializers.ModelSerializer):
             return order
 
 
-class TicketListSerializer(TicketSerializer):
-    journey = serializers.CharField(source="journey.route", read_only=True)
-
-    class Meta:
-        model = Ticket
-        fields = ("id", "cargo", "seat", "journey")
-
-
 class OrderListSerializer(OrderSerializer):
     user = serializers.CharField(source="user.username", read_only=True)
-    tickets = TicketListSerializer(many=True, read_only=False)
+    tickets = TicketListSerializer(many=True, read_only=True)
