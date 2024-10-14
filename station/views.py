@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
 from station.models import (
     Crew,
@@ -82,6 +83,7 @@ class JourneyViewSet(viewsets.ModelViewSet):
 
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.select_related("user")
+    permission_classes = (IsAuthenticated,)
 
     def get_serializer_class(self):
         if self.action in ("list", "retrieve"):
