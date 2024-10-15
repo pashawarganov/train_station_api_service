@@ -43,6 +43,20 @@ class StationViewSet(viewsets.ModelViewSet):
 class RouteViewSet(viewsets.ModelViewSet):
     queryset = Route.objects.select_related("source", "destination")
 
+    def get_queryset(self):
+        destination = self.request.query_params.get("destination")
+        source = self.request.query_params.get("source")
+
+        queryset = self.queryset
+
+        if destination:
+            queryset = queryset.filter(destination=int(destination))
+
+        if source:
+            queryset = queryset.filter(source=int(source))
+
+        return queryset
+
     def get_serializer_class(self):
         if self.action == "list":
             return RouteListSerializer
