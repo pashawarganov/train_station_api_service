@@ -33,8 +33,12 @@ class RouteSerializer(serializers.ModelSerializer):
 
 
 class RouteListSerializer(RouteSerializer):
-    source_station = serializers.CharField(source="source.name", read_only=True)
-    destination_station = serializers.CharField(source="destination.name", read_only=True)
+    source_station = serializers.CharField(
+        source="source.name", read_only=True
+    )
+    destination_station = serializers.CharField(
+        source="destination.name", read_only=True
+    )
 
     class Meta:
         model = Route
@@ -59,13 +63,19 @@ class TrainSerializer(serializers.ModelSerializer):
 
 
 class TrainListSerializer(TrainSerializer):
-    train_type = serializers.CharField(source="train_type.name", read_only=True)
+    train_type = serializers.CharField(
+        source="train_type.name", read_only=True
+    )
 
 
 class JourneySerializer(serializers.ModelSerializer):
     class Meta:
         model = Journey
-        fields = ("id", "route", "train", "departure_time", "arrival_time", "crew")
+        fields = (
+            "id", "route", "train",
+            "departure_time",
+            "arrival_time", "crew"
+        )
 
 
 class JourneyListSerializer(JourneySerializer):
@@ -80,7 +90,11 @@ class JourneyListSerializer(JourneySerializer):
 
     class Meta:
         model = Journey
-        fields = ("id", "route_path", "train_name", "train_capacity", "departure_time", "arrival_time", "crew")
+        fields = (
+            "id", "route_path", "train_name",
+            "train_capacity", "departure_time",
+            "arrival_time", "crew"
+        )
 
     def get_route_path(self, obj):
         return f"{obj.route.source.name} - {obj.route.destination.name}"

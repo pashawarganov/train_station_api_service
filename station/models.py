@@ -25,8 +25,12 @@ class Station(models.Model):
 
 
 class Route(models.Model):
-    source = models.ForeignKey(Station, on_delete=models.CASCADE, related_name="source_routes")
-    destination = models.ForeignKey(Station, on_delete=models.CASCADE, related_name="destination_routes")
+    source = models.ForeignKey(
+        Station, on_delete=models.CASCADE, related_name="source_routes"
+    )
+    destination = models.ForeignKey(
+        Station, on_delete=models.CASCADE, related_name="destination_routes"
+    )
     distance = models.IntegerField()
 
     def __str__(self):
@@ -44,7 +48,9 @@ class Train(models.Model):
     name = models.CharField(max_length=63)
     cargo_num = models.IntegerField()
     places_in_cargo = models.IntegerField()
-    train_type = models.ForeignKey(TrainType, on_delete=models.CASCADE, related_name="trains")
+    train_type = models.ForeignKey(
+        TrainType, on_delete=models.CASCADE, related_name="trains"
+    )
 
     @property
     def capacity(self) -> int:
@@ -55,19 +61,28 @@ class Train(models.Model):
 
 
 class Journey(models.Model):
-    route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name="journeys")
-    train = models.ForeignKey(Train, on_delete=models.CASCADE, related_name="journeys")
+    route = models.ForeignKey(
+        Route, on_delete=models.CASCADE, related_name="journeys"
+    )
+    train = models.ForeignKey(
+        Train, on_delete=models.CASCADE, related_name="journeys"
+    )
     departure_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
     crew = models.ManyToManyField(Crew, related_name="journeys", blank=True)
 
     def __str__(self):
-        return f"{self.route} {self.train.name} Departure: {self.departure_time}"
+        return (
+            f"{self.route} {self.train.name} "
+            f"Departure: {self.departure_time}"
+        )
 
 
 class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="orders")
+    user = models.ForeignKey(
+        get_user_model(), on_delete=models.CASCADE, related_name="orders"
+    )
 
     def __str__(self):
         return f"{self.user}({str(self.created_at)})"
@@ -76,8 +91,12 @@ class Order(models.Model):
 class Ticket(models.Model):
     cargo = models.IntegerField()
     seat = models.IntegerField()
-    journey = models.ForeignKey(Journey, on_delete=models.CASCADE, related_name="tickets")
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="tickets")
+    journey = models.ForeignKey(
+        Journey, on_delete=models.CASCADE, related_name="tickets"
+    )
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, related_name="tickets"
+    )
 
     @staticmethod
     def validate_ticket(cargo, seat, train, error_to_raise):
@@ -89,10 +108,11 @@ class Ticket(models.Model):
             if not (1 <= ticket_attr_value <= count_attrs):
                 raise error_to_raise(
                     {
-                        ticket_attr_name: f"{ticket_attr_name} "
-                                          f"number must be in available range: "
-                                          f"(1, {train_attr_name}): "
-                                          f"(1, {count_attrs})"
+                        ticket_attr_name:
+                            f"{ticket_attr_name} "
+                            f"number must be in available range: "
+                            f"(1, {train_attr_name}): "
+                            f"(1, {count_attrs})"
                     }
                 )
 
