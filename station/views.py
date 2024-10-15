@@ -80,12 +80,15 @@ class TrainViewSet(viewsets.ModelViewSet):
 
         return TrainSerializer
 
+
 class JourneyViewSet(viewsets.ModelViewSet):
     queryset = (
         Journey.objects
-        .select_related("route", "train")
+        .select_related(
+            "route", "route__destination", "route__source", "train"
+        )
         .prefetch_related("crew")
-    )   # 27 -> 23 -> 20
+    )
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -95,8 +98,17 @@ class JourneyViewSet(viewsets.ModelViewSet):
 
         return JourneySerializer
 
+
 class OrderViewSet(viewsets.ModelViewSet):
-    queryset = Order.objects.select_related("user")
+    queryset = Order.objects.prefetch_related(
+        "tickets",
+        "tickets__journey",
+        "tickets__journey__train",
+        "tickets__journey__route",
+        "tickets__journey__route__source",
+        "tickets__journey__route__destination",
+        "tickets__journey__crew"
+    )
     permission_classes = (IsAuthenticated,)
 
     def get_serializer_class(self):
@@ -105,8 +117,9 @@ class OrderViewSet(viewsets.ModelViewSet):
 
         return OrderSerializer
 
+
 class TicketViewSet(viewsets.ModelViewSet):
-    queryset = Ticket.objects.select_related("journey__route", "order__user")
+    queryset = Ticket.objects.select_related()
 
     def get_serializer_class(self):
         if self.action == "list":
