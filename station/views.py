@@ -1,3 +1,5 @@
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
@@ -64,6 +66,23 @@ class RouteViewSet(viewsets.ModelViewSet):
             return RouteDetailSerializer
 
         return RouteSerializer
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "destination",
+                type=OpenApiTypes.INT,
+                description="Filter by destination id (ex. ?destination=2)",
+            ),
+            OpenApiParameter(
+                "source",
+                type=OpenApiTypes.INT,
+                description="Filter by source id (ex. ?source=1)",
+            ),
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
 class TrainTypeViewSet(viewsets.ModelViewSet):
