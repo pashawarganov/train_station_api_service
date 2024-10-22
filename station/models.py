@@ -98,6 +98,9 @@ class Ticket(models.Model):
         Order, on_delete=models.CASCADE, related_name="tickets"
     )
 
+    class Meta:
+        unique_together = ("journey", "cargo", "seat")
+
     @staticmethod
     def validate_ticket(cargo, seat, train, error_to_raise):
         for ticket_attr_value, ticket_attr_name, train_attr_name in [
@@ -138,6 +141,3 @@ class Ticket(models.Model):
 
     def __str__(self):
         return f"{self.journey.route} cargo: {self.cargo} seat: {self.seat}"
-
-    class Meta:
-        unique_together = ("journey", "cargo", "seat")
