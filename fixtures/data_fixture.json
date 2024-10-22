@@ -1,0 +1,377 @@
+[
+  {
+    "model": "station.crew",
+    "pk": 1,
+    "fields": {
+      "first_name": "Emily",
+      "last_name": "Clark"
+    }
+  },
+  {
+    "model": "station.crew",
+    "pk": 2,
+    "fields": {
+      "first_name": "John",
+      "last_name": "Doe"
+    }
+  },
+  {
+    "model": "station.crew",
+    "pk": 3,
+    "fields": {
+      "first_name": "Michael",
+      "last_name": "Johnson"
+    }
+  },
+  {
+    "model": "station.crew",
+    "pk": 4,
+    "fields": {
+      "first_name": "Sophia",
+      "last_name": "Williams"
+    }
+  },
+  {
+    "model": "station.traintype",
+    "pk": 1,
+    "fields": {
+      "name": "Passenger"
+    }
+  },
+  {
+    "model": "station.traintype",
+    "pk": 2,
+    "fields": {
+      "name": "Freight"
+    }
+  },
+  {
+    "model": "station.traintype",
+    "pk": 3,
+    "fields": {
+      "name": "High-Speed"
+    }
+  },
+  {
+    "model": "station.traintype",
+    "pk": 4,
+    "fields": {
+      "name": "Electric"
+    }
+  },
+  {
+    "model": "station.train",
+    "pk": 1,
+    "fields": {
+      "name": "Express A",
+      "cargo_num": 25,
+      "places_in_cargo": 80,
+      "train_type": 1
+    }
+  },
+  {
+    "model": "station.train",
+    "pk": 2,
+    "fields": {
+      "name": "Bullet D",
+      "cargo_num": 20,
+      "places_in_cargo": 70,
+      "train_type": 3
+    }
+  },
+  {
+    "model": "station.train",
+    "pk": 3,
+    "fields": {
+      "name": "Luxury C",
+      "cargo_num": 10,
+      "places_in_cargo": 50,
+      "train_type": 1
+    }
+  },
+  {
+    "model": "station.train",
+    "pk": 4,
+    "fields": {
+      "name": "Express B",
+      "cargo_num": 15,
+      "places_in_cargo": 100,
+      "train_type": 4
+    }
+  },
+  {
+    "model": "station.station",
+    "pk": 1,
+    "fields": {
+      "name": "Central Station",
+      "latitude": 40.7128,
+      "longitude": 74.006
+    }
+  },
+  {
+    "model": "station.station",
+    "pk": 2,
+    "fields": {
+      "name": "East End",
+      "latitude": 51.5074,
+      "longitude": -0.1278
+    }
+  },
+  {
+    "model": "station.station",
+    "pk": 3,
+    "fields": {
+      "name": "North Hills",
+      "latitude": 34.0522,
+      "longitude": -118.2437
+    }
+  },
+  {
+    "model": "station.station",
+    "pk": 4,
+    "fields": {
+      "name": "West Coast",
+      "latitude": 37.7749,
+      "longitude": -122.4194
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 1,
+    "fields": {
+      "distance": 500,
+      "destination": 2,
+      "source": 1
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 2,
+    "fields": {
+      "distance": 800,
+      "destination": 4,
+      "source": 3
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 3,
+    "fields": {
+      "distance": 300,
+      "destination": 3,
+      "source": 2
+    }
+  },
+  {
+    "model": "station.route",
+    "pk": 4,
+    "fields": {
+      "distance": 700,
+      "destination": 1,
+      "source": 4
+    }
+  },
+  {
+    "model": "station.journey",
+    "pk": 1,
+    "fields": {
+      "route": 1,
+      "train": 1,
+      "departure_time": "2024-10-13T08:00:00Z",
+      "arrival_time": "2024-10-13T12:00:00Z",
+      "crew": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "model": "station.journey",
+    "pk": 2,
+    "fields": {
+      "route": 4,
+      "train": 3,
+      "departure_time": "2024-10-16T10:00:00Z",
+      "arrival_time": "2024-10-16T15:00:00Z",
+      "crew": [
+        2,
+        4
+      ]
+    }
+  },
+  {
+    "model": "station.journey",
+    "pk": 3,
+    "fields": {
+      "route": 2,
+      "train": 2,
+      "departure_time": "2024-10-14T09:00:00Z",
+      "arrival_time": "2024-10-14T14:00:00Z",
+      "crew": [
+        3,
+        4
+      ]
+    }
+  },
+  {
+    "model": "station.journey",
+    "pk": 4,
+    "fields": {
+      "route": 3,
+      "train": 4,
+      "departure_time": "2024-10-15T07:00:00Z",
+      "arrival_time": "2024-10-15T11:00:00Z",
+      "crew": [
+        1,
+        3
+      ]
+    }
+  },
+  {
+    "model": "station.journey",
+    "pk": 5,
+    "fields": {
+      "route": 3,
+      "train": 2,
+      "departure_time": "2024-10-13T18:00:00Z",
+      "arrival_time": "2024-10-13T22:00:00Z",
+      "crew": [
+        2,
+        3,
+        4
+      ]
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 1,
+    "fields": {
+      "email": "tournament1@example.com",
+      "password": "pbkdf2_sha256$320000$iUtbQO1Ms9ZtTVuwA5MADh$Dk7sdJ+DxHA7gMVk01DHnhxXyLRGP//5GVk0uKG4dRA=",
+      "first_name": "Pasha",
+      "last_name": "Var",
+      "is_superuser": true,
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2024-09-01T10:00:00Z",
+      "last_login": "2024-09-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 2,
+    "fields": {
+      "email": "user1@example.com",
+      "password": "pbkdf2_sha256$320000$Ng2g7xUHWKH37Suzd1vHQc$L4no5E7aLX6c9LCCqmp6NciNDfadBNFG/cwflnq+/Qk=",
+      "first_name": "John",
+      "last_name": "James",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2024-09-05T15:00:00Z",
+      "last_login": "2024-09-18T15:00:00Z"
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 3,
+    "fields": {
+      "email": "user2@example.com",
+      "password": "pbkdf2_sha256$320000$fVbf2yjFAC6xCRhhRjmHhd$MV2BUSO0ot6K5smXXqVECEoB5W4hV3bDbin8j0R1tfg=",
+      "first_name": "Michael",
+      "last_name": "Johnson",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2024-09-05T15:00:00Z",
+      "last_login": "2024-09-18T15:00:00Z"
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 4,
+    "fields": {
+      "email": "user3@example.com",
+      "password": "pbkdf2_sha256$320000$u0oAUVJX6ySB4jibrIcYfD$4SK6wXXUYFCXJi/b/5I8ijXudKUv6hJfp36aQ/I/4pw=",
+      "first_name": "Jane",
+      "last_name": "Smith",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2024-09-05T15:00:00Z",
+      "last_login": "2024-09-18T15:00:00Z"
+    }
+  },
+  {
+    "model": "station.order",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "created_at": "2024-10-13T16:43:05.805150Z"
+    }
+  },
+  {
+    "model": "station.order",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "created_at": "2024-10-13T16:53:05.805150Z"
+    }
+  },
+  {
+    "model": "station.order",
+    "pk": 3,
+    "fields": {
+      "user": 3,
+      "created_at": "2024-10-13T17:33:05.805150Z"
+    }
+  },
+  {
+    "model": "station.order",
+    "pk": 4,
+    "fields": {
+      "user": 4,
+      "created_at": "2024-10-13T18:43:05.805150Z"
+    }
+  },
+  {
+    "model": "station.ticket",
+    "pk": 1,
+    "fields": {
+      "cargo": 5,
+      "seat": 10,
+      "journey": 1,
+      "order": 1
+    }
+  },
+  {
+    "model": "station.ticket",
+    "pk": 2,
+    "fields": {
+      "cargo": 4,
+      "seat": 11,
+      "journey": 2,
+      "order": 2
+    }
+  },
+  {
+    "model": "station.ticket",
+    "pk": 3,
+    "fields": {
+      "cargo": 3,
+      "seat": 12,
+      "journey": 3,
+      "order": 3
+    }
+  },
+  {
+    "model": "station.ticket",
+    "pk": 4,
+    "fields": {
+      "cargo": 2,
+      "seat": 13,
+      "journey": 4,
+      "order": 4
+    }
+  }
+]
