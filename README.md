@@ -6,17 +6,15 @@ This is a Django REST Framework (DRF) powered API for managing train station ser
 
 ## Run service on your machine
 
-Install PostgresSQL and create db
+* Install PostgresSQL 
+* Create db 
+* Set env file with your own credentials
 ```shell
 git clone https://github.com/
 cd train_station_api_service
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
-set DB_HOST=<your db hostname>
-set DB_NAME=<your db name>
-set DB_USER=<your db username>
-set DB_PASSWORD=<your db user password>
 python manage.py migrate
 python manage.py runserver
 ```
