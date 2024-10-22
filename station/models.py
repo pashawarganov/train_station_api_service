@@ -17,7 +17,7 @@ class Crew(models.Model):
 
 class Station(models.Model):
     name = models.CharField(max_length=63)
-    latitude = models.FloatField()      # Use Decimal ???
+    latitude = models.FloatField()
     longitude = models.FloatField()
 
     def __str__(self):
