@@ -277,7 +277,7 @@
     "pk": 3,
     "fields": {
       "email": "user2@example.com",
-      "password": "pbkdf2_sha256$320000$naC6pLw3WRIK11KXuNcc5Q$qvskM5iHGq+SOM4Oyi8oAi7k7Yxs6yGxzyf74HmOX8A=",
+      "password": "pbkdf2_sha256$320000$fVbf2yjFAC6xCRhhRjmHhd$MV2BUSO0ot6K5smXXqVECEoB5W4hV3bDbin8j0R1tfg=",
       "first_name": "Michael",
       "last_name": "Johnson",
       "is_superuser": false,
